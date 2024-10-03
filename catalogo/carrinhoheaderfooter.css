@@ -57,12 +57,11 @@ body {
 }
 
 
-.items {
-    width: 10vw;
-    height: 19vh;
-    margin-bottom: 5px;
-    padding-top: 1rem;
-    border-radius: 1rem;
+.itens {
+    width: 12.99vw; 
+    height: 21vh; 
+    object-fit: cover; 
+    border-radius: 8px; 
 }
 
 .adicionar {

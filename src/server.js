@@ -215,6 +215,34 @@ app.get('/produto/listar', (request, response) => {
     });
 });
 
+app.get('/produto/listar/:id', (request, response) => {
+    const productId = request.params.id;
+
+    let query = "SELECT * FROM products WHERE id = ?";
+    connection.query(query, [productId], (err, results) => {
+        if (err) {
+            return response.status(500).json({
+                success: false,
+                message: "Erro ao buscar produto",
+                data: err
+            });
+        }
+
+        if (results.length > 0) {
+            response.status(200).json({
+                success: true,
+                message: "Produto encontrado",
+                data: results[0] // Retorna o primeiro resultado
+            });
+        } else {
+            response.status(404).json({
+                success: false,
+                message: "Produto não encontrado"
+            });
+        }
+    });
+});
+
 
 
 app.delete('/produto/deletar/:id', (request, response) => {

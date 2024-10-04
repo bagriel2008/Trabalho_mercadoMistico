@@ -104,27 +104,16 @@ header {
 
 
 }
-
-.segundoQuadrado{
+.checkbox-container {
     display: flex;
-    height: 2.2rem;
-    width: 2.3rem;
-    background-color: #FFFF;
-    position: absolute;
-    top: 0.35rem;
-    left: 0.6rem;
     justify-content: center;
     align-items: center;
- 
-
-    
+    height: 100%; /* Ajusta a altura para ocupar todo o espaço do 'primeiroQuadrado' */
 }
 
-.segundoQuadrado button{
-    border: none; 
-    background-color: transparent; 
-    outline: none; 
-    cursor: pointer;
+.checkbox-container input{
+    width: 2rem;  /* Define o tamanho da checkbox */
+    height: 2rem; /* Define o tamanho da checkbox */
 }
 
 .produto {
@@ -146,6 +135,14 @@ header {
     padding-right: 1rem;
 }
 
+input[type="number"] {
+    margin-top: 5px; /* Espaçamento acima do input */
+    width: 100%; /* Faz o input ocupar toda a largura disponível */
+    max-width: 100px; /* Define uma largura máxima */
+    margin-left: 8rem;
+}
+
+
 .item {
     position: absolute;
     transform: translateY(-3%);
@@ -161,7 +158,7 @@ header {
 
 .primeiroQuadrado .produto{
     margin-left: -9rem;
-    margin-top: -1rem;
+    margin-top: -4rem;
 }
 
 .informacoes {

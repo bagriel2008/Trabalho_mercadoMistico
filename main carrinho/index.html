@@ -11,8 +11,9 @@
 <body>
 
     <header class="header">
-        <a href="../pagina inicial/index.html"><img src="../headerandfooter/assets/_51bbc2c7-6a46-43e1-8868-a644f0a230b8.png" alt="Logo"
-                class="logo"></a> <!-- exemplo de logo -->
+        <a href="../pagina inicial/index.html"><img
+                src="../headerandfooter/assets/_51bbc2c7-6a46-43e1-8868-a644f0a230b8.png" alt="Logo" class="logo"></a>
+        <!-- exemplo de logo -->
         <div class="barraDePesquisaContainer">
             <input type="text" class="barraDePesquisa" placeholder="Pesquisar...">
             <img src="../headerandfooter/assets/Search.png" alt="Lupa" class="lupa">
@@ -28,23 +29,28 @@
         <section class="produtos">
             <div class="primeiroProduto">
                 <div class="primeiroQuadrado" id="primeiroQuadrado1">
-                    <button id="segundoQuadrado1" class="segundoQuadrado" onclick="toggleItem(1, 25.99)">
-                        <div></div>
-                    </button>
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="checkbox" data-price="" data-name=""
+                            onchange="updateSelectedItems()">
+                    </label>
 
                     <div class="produto" id="produto1">
-                        <div class="item"> <img src=""  alt=""></div>
+                        <div class="item"> <img src="" alt=""></div>
                         <div>
                             <p></p>
                             <p>Preço:R$ <span id="preco1" class="preco">0</span></p>
+                            <p>Quantidade:</p>
+                            <input type="number" id="quantidade1" value="1" min="1" onchange="updateSelectedItems()">
                         </div>
                     </div>
                 </div>
             </div>
-            
+
 
             <div class="limparCarrinho">
-                <button onclick="limparCarrinho()"><h1>Limpar o carrinho</h1></button>
+                <button onclick="limparCarrinho()">
+                    <h1>Limpar o carrinho</h1>
+                </button>
             </div>
         </section>
 
@@ -56,7 +62,7 @@
             </div>
 
             <div class="confirmacao">
-                <button> 
+                <button>
                     <a href="../main checkout/index.html">
                         <p>Iniciar a compra</p>
                     </a>
@@ -67,6 +73,7 @@
 
     <footer></footer>
 </body>
+
 
 <script src="carrinho.js"></script>
 <script src="../headerandfooter/headerfooter.js"></script>

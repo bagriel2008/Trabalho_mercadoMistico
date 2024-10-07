@@ -44,7 +44,7 @@
 
 ### Utilização da API
 
-## Cadastro/Login de Usuário
+## Cadastro de Usuário
 
     Endpoint: POST /usuario/cadastrar
     Descrição: Cadastra um novo usuário ou realiza o login se o e-mail já estiver cadastrado.
@@ -59,6 +59,22 @@
     200: Login realizado com sucesso.
     401: Senha incorreta.
     500: Erro no servidor.
+
+## Login de Usuário
+
+    Endpoint: POST /usuario/login
+    Descrição: Realiza o login de um usuário com base no e-mail e senha fornecidos.
+
+    Request Body:
+    {
+    email: E-mail do usuário.
+    password: Senha do usuário.
+    }
+    Response:
+    200: Login realizado com sucesso, retornando o ID, nome e e-mail do usuário.
+    401: Senha incorreta.
+    404: Usuário não encontrado.
+    500: Erro no servidor ao tentar verificar o login.
 
 ## Listagem de Usuários
     Endpoint: GET /usuario/listar
@@ -110,6 +126,18 @@
     201: Sucesso.
     400: Sem sucesso.
 
+### Listar Produto por ID
+    Endpoint: GET /produto/listar/
+    Descrição: Retorna os detalhes de um produto específico com base no ID fornecido.
+    Request Parameters:
+    {
+    id: ID do produto que se deseja listar.
+    }
+    Response:
+    200: Produto encontrado com sucesso, retorna os detalhes do produto.
+    404: Produto não encontrado.
+    500: Erro no servidor ao tentar buscar o produto.
+
 ## Deleção de Produto
     Endpoint: DELETE /produto/deletar/:id
     Descrição: Deleta um produto pelo ID.
@@ -117,23 +145,6 @@
     200: Produto deletado com sucesso.
     404: Produto não encontrado.
     500: Erro no servidor.
-
-## Favoritar Produto
-    Endpoint: POST /produto/favoritar/:id
-    Descrição: Adicionar um item aos favoritos pelo ID.
-    Response:
-    500: Erro no servidor
-    404: Produto não encontrado
-    500: Erro ao favoritar produto
-    200: Produto favoritado com sucesso
-
-## Lista de favoritos
-    Endpoint: GET /produtos/favoritos
-    Descrição: mostrar os items da lista dos favoritos.
-    Response:
-    500: Erro ao listar produtos favoritados
-    404: Nenhum produto favoritado encontrado
-    201: Produtos favoritados listados com sucesso
 
 ### Testes
     Os endpoints podem ser testados utilizando ferramentas como Postman, Insomnia ou o ThunderClient. Certifique-se de que o servidor esteja em execução e utilize as URLs conforme especificado acima.

@@ -26,7 +26,7 @@ function resultadoFinal() {
             <div class="primeiroItem">
                 <img src="${item.image}" alt="${item.name}">
                 <div>
-                    <p class="descricao">${item.name}</p>
+                    <p class="nome">${item.name}</p>
                     <p class="preco">Preço: R$ <span class="item-preco">${(item.price * item.quantity).toFixed(2)}</span></p>
                     <p class="qntd">Quantidade: ${item.quantity}</p>
                 </div>

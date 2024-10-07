@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productDiv.innerHTML = `
             <div class="primeiroQuadrado">
                 <label class="checkbox-container">
-                    <input type="checkbox" id="checkbox${index + 1}" data-price="${item.price}" data-name="${item.name}" onchange="updateSelectedItems()">
+                    <input type="checkbox" id="checkbox${index + 1}" data-price="${item.price}" data-name="${item.name}" data-image="${item.image}" onchange="updateSelectedItems()">
                 </label>
 
                 <div class="produto" id="produto${index + 1}">
@@ -71,16 +71,18 @@ function updateSelectedItems() {
             const quantityInput = checkbox.closest('.primeiroProduto').querySelector('input[type="number"]');
             const quantity = parseInt(quantityInput.value);
             const price = parseFloat(checkbox.getAttribute('data-price'));
+            const image = checkbox.getAttribute('data-image'); // Obtém a imagem do produto
 
             totalItems += quantity; // Some a quantidade
             totalCost += price * quantity; // Calcule o custo total
 
-            // Adiciona item selecionado ao objeto
+            // Adiciona item selecionado ao objeto, incluindo a imagem
             const itemName = checkbox.getAttribute('data-name');
             itensSelecionados[itemName] = {
                 name: itemName,
                 price: price,
-                quantity: quantity
+                quantity: quantity,
+                image: image // Armazena a imagem
             };
         }
     });

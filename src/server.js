@@ -28,38 +28,30 @@ app.listen(port, () => console.log(`Rodando na port ${port}`));
 const connection = require('./db_config');
 
 // Rotas
+// Cadastro de usuários
 app.post('/usuario/cadastrar', (request, response) => {
     const { name, email, password } = request.body;
 
-    // Primeiro, verificar se o e-mail já existe
+    // Verificar se o e-mail já existe na tabela de usuários
     const checkUserQuery = "SELECT * FROM users WHERE email = ?";
     connection.query(checkUserQuery, [email], (err, results) => {
         if (err) {
             return response.status(500).json({
                 success: false,
-                message: "Erro no servidor",
+                message: "Erro no servidor ao verificar o usuário",
                 data: err
             });
         }
 
         if (results.length > 0) {
-            // Se o e-mail já existe, verificar a senha
-            const user = results[0];
-            if (user.password === password) {
-                return response.status(200).json({
-                    success: true,
-                    message: "Login realizado com sucesso",
-                    data: user
-                });
-            } else {
-                return response.status(401).json({
-                    success: false,
-                    message: "Senha incorreta",
-                });
-            }
+            // Se o e-mail já existe, retorna erro
+            return response.status(409).json({
+                success: false,
+                message: "E-mail já cadastrado",
+            });
         } else {
-            // Se o e-mail não existe, realizar o cadastro
-            const insertUserQuery = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
+            // Se o e-mail não existe, insere o novo usuário
+            const insertUserQuery = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
             connection.query(insertUserQuery, [name, email, password], (err, results) => {
                 if (err) {
                     return response.status(500).json({
@@ -72,9 +64,49 @@ app.post('/usuario/cadastrar', (request, response) => {
                 return response.status(201).json({
                     success: true,
                     message: "Usuário cadastrado com sucesso",
-                    data: results
+                    data: { id: results.insertId, name, email }
                 });
             });
+        }
+    });
+});
+
+// Login de usuários
+app.post('/usuario/login', (request, response) => {
+    const { email, password } = request.body;
+
+    // Verificar se o e-mail e a senha estão corretos
+    const query = "SELECT * FROM users WHERE email = ?";
+    connection.query(query, [email], (err, results) => {
+        if (err) {
+            return response.status(500).json({
+                success: false,
+                message: "Erro no servidor",
+                data: err
+            });
+        }
+
+        if (results.length === 0) {
+            // Se o e-mail não for encontrado
+            return response.status(404).json({
+                success: false,
+                message: "Usuário não encontrado",
+            });
+        } else {
+            const user = results[0];
+            // Verificar se a senha fornecida é a mesma armazenada
+            if (user.password === password) {
+                return response.status(200).json({
+                    success: true,
+                    message: "Login realizado com sucesso",
+                    user: { id: user.id, name: user.name, email: user.email }
+                });
+            } else {
+                return response.status(401).json({
+                    success: false,
+                    message: "Senha incorreta",
+                });
+            }
         }
     });
 });

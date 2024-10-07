@@ -98,9 +98,10 @@ header {
 }
 
 .itens img {
-    padding: 0rem 0 1rem 1rem;
+    margin: 0.5rem;
     height: 13vh;
     width: 9vw;
+    border-radius: 1rem;
 }
 
 .compras {
@@ -113,18 +114,17 @@ header {
     background-color: #d4d4d4;
     height: 15vh;
     width: 35vw;
-    padding-top: 1.5rem;
     border-radius: 1rem;
     margin-bottom: 3rem;
 }
 
-
-.primeiroItem, .segundoItem {
+.primeiroItem{
     display: flex;
     padding-bottom: 6rem;
 }
 
-.descricao {
+.nome {
+    margin-top: 1rem;
     margin-left: 3rem;
     text-align: justify;
     width: 28vw;

@@ -78,9 +78,11 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    display: none;
 }
 
 .adicionar img {
+    margin-top: 0.5rem;
     width: 30px; /* Ajuste o tamanho da imagem conforme necessário */
     height: 30px; /* Ajuste o tamanho da imagem conforme necessário */
 }

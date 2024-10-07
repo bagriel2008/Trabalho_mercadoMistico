@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const productList = document.getElementById('catalogContainer');
+    const adicionarIcon = document.getElementById('adicionar');
 
     try {
         const response = await fetch('http://localhost:3333/produto/listar'); // Alterar conforme necessário
@@ -28,15 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erro ao buscar produtos:', error);
         productList.innerHTML = '<p>Erro ao carregar produtos.</p>';
     }
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-    const adicionarIcon = document.getElementById('adicionar');
-
-    // Verifica o status de login no localStorage
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-        adicionarIcon.style.display = 'block'; // Mostra o ícone
-    } else {
-        adicionarIcon.style.display = 'none'; // Garante que o ícone esteja escondido
-    }
+    // Verifica o status de acesso ao ícone de adicionar
+    const hasAddAccess = localStorage.getItem('hasAddAccess') === 'true';
+    adicionarIcon.style.display = hasAddAccess ? 'block' : 'none';
 });

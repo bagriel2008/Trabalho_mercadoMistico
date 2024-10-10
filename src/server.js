@@ -6,16 +6,43 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const fs = require('fs');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const app = express();
+const connection = require('./db_config.js');
+const port = 3001;
+
+// Define a configuração do Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API de Usuários',
+            version: '1.0.0',
+            description: 'Documentação da API de Usuários',
+        },
+    },
+    apis: ['./src/server.js'], // Caminho para os arquivos com anotações Swagger
+};
+
+// Inicializa o Swagger
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+// Define a rota para a documentação do Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+// Inicia o servidor
+app.listen(port, () => {
+    console.log(`Servidor iniciado na porta ${port}`);
+});
+
 
 dotenv.config(); // Carregar variáveis de ambiente
 
-const app = express();
-const port = 3333;
 
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-    credentials: true
-}));
+app.use(cors());
+
 app.use(express.json());
 app.use(session({
     secret: 'secretestrandomkey',
@@ -23,9 +50,41 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-app.listen(port, () => console.log(`Rodando na port ${port}`));
-// Importar a conexão com o banco
-const connection = require('./db_config');
+
+
+/**
+ * @swagger
+ * /usuario/cadastrar:
+ *   post:
+ *     summary: Cadastra um usuário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Usuário cadastrado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 nome:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 password:
+ *                   type: string
+ */
 
 // Rotas
 // Cadastro de usuários
@@ -122,12 +181,12 @@ app.get('/usuario/listar', (request, response) => {
             });
         } else {
             response
-            .status(400)
-            .json({
-                success: false,
-                message: "Sem sucesso",
-                data: err
-            });
+                .status(400)
+                .json({
+                    success: false,
+                    message: "Sem sucesso",
+                    data: err
+                });
         }
     });
 });
@@ -144,12 +203,12 @@ app.put('/usuario/editar/:id', (request, response) => {
     // Cria a query de atualização com base nos campos fornecidos
     let query = "UPDATE users SET ";
     let params = [];
-    
+
     if (name) {
         query += "name = ?, ";
         params.push(name);
     }
-    
+
     if (email) {
         query += "email = ?, ";
         params.push(email);
@@ -164,7 +223,7 @@ app.put('/usuario/editar/:id', (request, response) => {
         if (err) {
             return response.status(500).json({ success: false, message: 'Erro ao atualizar usuário', error: err });
         }
-        
+
         if (results.affectedRows === 0) {
             return response.status(404).json({ success: false, message: 'Usuário não encontrado' });
         }
@@ -181,7 +240,7 @@ app.delete('/usuario/deletar/:id', (request, response) => {
         if (err) {
             return response.status(500).json({ success: false, message: 'Erro ao deletar usuário', error: err });
         }
-        
+
         if (results.affectedRows === 0) {
             return response.status(404).json({ success: false, message: 'Usuário não encontrado' });
         }
@@ -220,7 +279,7 @@ app.post('/produto/cadastrar', (request, response) => {
                 nome: request.body.name,
                 description: request.body.description,
                 price: request.body.price,
-                imagem_link:request.body.imagem_link
+                imagem_link: request.body.imagem_link
             }
         });
     });
@@ -237,12 +296,12 @@ app.get('/produto/listar', (request, response) => {
             });
         } else {
             response
-            .status(400)
-            .json({
-                success: false,
-                message: "Sem sucesso",
-                data: err
-            });
+                .status(400)
+                .json({
+                    success: false,
+                    message: "Sem sucesso",
+                    data: err
+                });
         }
     });
 });
@@ -285,7 +344,7 @@ app.delete('/produto/deletar/:id', (request, response) => {
         if (err) {
             return response.status(500).json({ success: false, message: 'Erro ao deletar produto', error: err });
         }
-        
+
         if (results.affectedRows === 0) {
             return response.status(404).json({ success: false, message: 'produto não encontrado' });
         }

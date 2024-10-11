@@ -130,6 +130,53 @@ app.post('/usuario/cadastrar', (request, response) => {
     });
 });
 
+
+/**
+ * @swagger
+ * /usuario/login:
+ *   post:
+ *     summary: Login de Usuários
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "usuario@example.com"
+ *               password:
+ *                 type: string
+ *                 example: "senha123"
+ *     responses:
+ *       200:
+ *         description: Login realizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     name:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *       401:
+ *         description: Senha incorreta
+ *       404:
+ *         description: Usuário não encontrado
+ *       500:
+ *         description: Erro no servidor
+ */
 // Login de usuários
 app.post('/usuario/login', (request, response) => {
     const { email, password } = request.body;
@@ -170,6 +217,38 @@ app.post('/usuario/login', (request, response) => {
     });
 });
 
+
+/**
+ * @swagger
+ * /usuario/listar:
+ *   get:
+ *     summary: Listar todos os usuários
+ *     responses:
+ *       201:
+ *         description: Lista de usuários recuperada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       name:
+ *                         type: string
+ *                       email:
+ *                         type: string
+ *       400:
+ *         description: Erro ao buscar usuários
+ */
 app.get('/usuario/listar', (request, response) => {
     let query = "SELECT * FROM users";
     connection.query(query, (err, results) => {
@@ -191,6 +270,41 @@ app.get('/usuario/listar', (request, response) => {
     });
 });
 
+/**
+ * @swagger
+ * /usuario/editar/{id}:
+ *   put:
+ *     summary: Editar um usuário
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID do usuário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Novo Nome"
+ *               email:
+ *                 type: string
+ *                 example: "novoemail@example.com"
+ *     responses:
+ *       200:
+ *         description: Usuário atualizado com sucesso
+ *       400:
+ *         description: Nenhum dado fornecido para atualização
+ *       404:
+ *         description: Usuário não encontrado
+ *       500:
+ *         description: Erro ao atualizar usuário
+ */
 app.put('/usuario/editar/:id', (request, response) => {
     const id = parseInt(request.params.id);
     const { name, email } = request.body;
@@ -232,6 +346,27 @@ app.put('/usuario/editar/:id', (request, response) => {
     });
 });
 
+
+/**
+ * @swagger
+ * /usuario/deletar/{id}:
+ *   delete:
+ *     summary: Deletar um usuário
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID do usuário
+ *     responses:
+ *       200:
+ *         description: Usuário deletado com sucesso
+ *       404:
+ *         description: Usuário não encontrado
+ *       500:
+ *         description: Erro ao deletar usuário
+ */
 app.delete('/usuario/deletar/:id', (request, response) => {
     const id = parseInt(request.params.id);
 
@@ -252,6 +387,36 @@ app.delete('/usuario/deletar/:id', (request, response) => {
 
 // PRODUTO ==================================================================================================
 
+/**
+ * @swagger
+ * /produto/cadastrar:
+ *   post:
+ *     summary: Cadastrar um produto
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Produto 1"
+ *               description:
+ *                 type: string
+ *                 example: "Descrição do produto"
+ *               price:
+ *                 type: number
+ *                 example: 100.00
+ *               imagem_link:
+ *                 type: string
+ *                 example: "https://imagem.com/produto.jpg"
+ *     responses:
+ *       201:
+ *         description: Produto cadastrado com sucesso
+ *       500:
+ *         description: Erro ao cadastrar produto
+ */
 app.post('/produto/cadastrar', (request, response) => {
     let params = [
         request.body.name,
@@ -285,6 +450,42 @@ app.post('/produto/cadastrar', (request, response) => {
     });
 });
 
+
+/**
+ * @swagger
+ * /produto/listar:
+ *   get:
+ *     summary: Listar todos os produtos
+ *     responses:
+ *       201:
+ *         description: Lista de produtos recuperada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       name:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       price:
+ *                         type: number
+ *                       imagem_link:
+ *                         type: string
+ *       400:
+ *         description: Erro ao buscar produtos
+ */
 app.get('/produto/listar', (request, response) => {
     let query = "SELECT * FROM products";
     connection.query(query, (err, results) => {
@@ -305,6 +506,27 @@ app.get('/produto/listar', (request, response) => {
         }
     });
 });
+
+/**
+ * @swagger
+ * /produto/listar/{id}:
+ *   get:
+ *     summary: Buscar um produto por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID do produto
+ *     responses:
+ *       200:
+ *         description: Produto encontrado
+ *       404:
+ *         description: Produto não encontrado
+ *       500:
+ *         description: Erro ao buscar produto
+ */
 
 app.get('/produto/listar/:id', (request, response) => {
     const productId = request.params.id;
@@ -334,7 +556,26 @@ app.get('/produto/listar/:id', (request, response) => {
     });
 });
 
-
+/**
+ * @swagger
+ * /produto/deletar/{id}:
+ *   delete:
+ *     summary: Deletar um produto
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID do produto
+ *     responses:
+ *       200:
+ *         description: Produto deletado com sucesso
+ *       404:
+ *         description: Produto não encontrado
+ *       500:
+ *         description: Erro ao deletar produto
+ */
 
 app.delete('/produto/deletar/:id', (request, response) => {
     const id = parseInt(request.params.id);

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Timeline - Senac+</title>
+  <link rel="stylesheet" href="./css/style.css">
+
+</head>
+<body>
+  <h1>Timeline</h1>
+  
+  <!-- Formulário para criar um novo post -->
+  <form id="postForm">
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" name="titulo" required>
+    
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" name="descricao" required></textarea>
+    
+    <button onclick="loadPublicacao(event)">Publicar</button>
+  </form>
+  
+  
+  <h2>Posts</h2>
+  <div class="listaPosts" id="listaPosts">
+    <tbody>
+    </tbody>
+  </div>
+  
+</body>
+
+<script src="./js/scriptpubli.js"></script>
+
+</html>
